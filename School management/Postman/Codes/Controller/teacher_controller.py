@@ -18,14 +18,28 @@ def subject_exists(subject_code):
     return subjects_collection.find_one({"subject_code": subject_code}) is not None
 
 def teacher_exists(username):
-    return teachers_collection.find_one({"user_name": username}) is not None
+    return teachers_collection.find_one({"username": username}) is not None
+
+def build_experience_section(experience_data):
+    return {
+        'years_of_experience': experience_data.get('years_of_experience', ''),
+        'previous_institutions': experience_data.get('previous_institutions', []),
+        'areas_of_expertise': experience_data.get('areas_of_expertise', [])
+    }
+
+def build_qualifications_section(qualifications_data):
+    return {
+        'degrees': qualifications_data.get('degrees', []),
+        'certifications': qualifications_data.get('certifications', []),
+        'specializations': qualifications_data.get('specializations', [])
+    }
 
 @teacher_blueprint.route('/add_teacher', methods=['POST'])
 def add_teacher():
     try:
         teacher_data = request.json
-        username = teacher_data['user_name']
-        subjects = teacher_data['subject']
+        username = teacher_data['username']
+        subjects = teacher_data['subjects']
         
         # Check if the username exists in the users collection
         if not user_exists(username):
@@ -40,13 +54,19 @@ def add_teacher():
             if not subject_exists(subject):
                 return jsonify({"error": f"Subject {subject} does not exist"}), 400
         
-        teacher_data['_id'] = ObjectId()
-        teacher_data['hire_date'] = datetime.strptime(teacher_data['hire_date'], "%Y-%m-%d")
-        teacher_data['updated_at'] = datetime.utcnow()
+        teacher_doc = {
+            '_id': ObjectId(),
+            'username': username,
+            'hire_date': datetime.strptime(teacher_data['hire_date'], "%Y-%m-%d"),
+            'subjects': subjects,
+            'experience': build_experience_section(teacher_data.get('experience', {})),
+            'qualifications': build_qualifications_section(teacher_data.get('qualifications', {})),
+            'updated_at': datetime.utcnow()
+        }
 
-        teachers_collection.insert_one(teacher_data)
+        teachers_collection.insert_one(teacher_doc)
 
-        return jsonify({"message": "Teacher added successfully", "id": str(teacher_data['_id'])}), 201
+        return jsonify({"message": "Teacher added successfully", "id": str(teacher_doc['_id'])}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -54,7 +74,7 @@ def add_teacher():
 def update_teacher(username):
     try:
         teacher_data = request.json
-        subjects = teacher_data.get('subject', [])
+        subjects = teacher_data.get('subjects', [])
         
         # Check if the teacher exists in the teachers collection
         if not teacher_exists(username):
@@ -65,13 +85,17 @@ def update_teacher(username):
             if not subject_exists(subject):
                 return jsonify({"error": f"Subject {subject} does not exist"}), 400
 
+        update_doc = {
+            'subjects': subjects,
+            'experience': build_experience_section(teacher_data.get('experience', {})),
+            'qualifications': build_qualifications_section(teacher_data.get('qualifications', {})),
+            'updated_at': datetime.utcnow()
+        }
+
         if 'hire_date' in teacher_data:
-            teacher_data['hire_date'] = datetime.strptime(teacher_data['hire_date'], "%Y-%m-%d")
+            update_doc['hire_date'] = datetime.strptime(teacher_data['hire_date'], "%Y-%m-%d")
 
-        # Add the current date and time as updated_at
-        teacher_data['updated_at'] = datetime.utcnow()
-
-        result = teachers_collection.update_one({"user_name": username}, {"$set": teacher_data})
+        result = teachers_collection.update_one({"username": username}, {"$set": update_doc})
 
         if result.matched_count > 0:
             return jsonify({"message": "Teacher updated successfully"}), 200
@@ -87,7 +111,7 @@ def delete_teacher(username):
         if not teacher_exists(username):
             return jsonify({"error": "Teacher not found"}), 404
 
-        result = teachers_collection.delete_one({"user_name": username})
+        result = teachers_collection.delete_one({"username": username})
 
         if result.deleted_count > 0:
             return jsonify({"message": "Teacher deleted successfully"}), 200

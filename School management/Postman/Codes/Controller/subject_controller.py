@@ -20,9 +20,10 @@ def add_subject():
         if subjects_collection.find_one({"subject_code": subject_code}):
             return jsonify({"error": "Subject already exists"}), 400
 
+        subject_data['_id'] = ObjectId()  # Add an ObjectId to the subject data
         subjects_collection.insert_one(subject_data)
 
-        return jsonify({"message": "Subject added successfully", "id": subject_code}), 201
+        return jsonify({"message": "Subject added successfully", "id": str(subject_data['_id'])}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
