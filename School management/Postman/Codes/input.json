@@ -1,0 +1,306 @@
+http://localhost:5000/add_user
+
+{
+    "username": "example_user2",
+    "email": "example@example.com",
+    "password": "example_password",
+    "role": "student",
+    "phone": "123-456-7890",
+    "address": "123 Example Street"
+}
+
+
+
+http://localhost:5000/update_user
+
+{
+  "username": "example_user4",
+  "password": "example_password",
+  "new_password": "12345",
+  "email": "new_john_doe@example.com",
+  "name": "Johnathan Doe"
+}
+
+{
+  "_id": {
+    "$oid": "669be9670cbc8eca7cd8c370"
+  },
+  "username": "example_user2",
+  "email": "new_john_doe@example.com",
+  "password": {
+    "$binary": {
+      "base64": "JDJiJDEyJEdNbVUydWJFaUxpVlA1YkFTN3gxcGUwRHpMNFA3LldxZk9VLnAvLkpZQ3liT0N0cnk4VFcu",
+      "subType": "00"
+    }
+  },
+  "role": "student",
+  "phone": "123-456-7890",
+  "address": "123 Example Street",
+  "name": "Johnathan Doe",
+  "updated_at": {
+    "$date": "2024-07-20T17:04:57.462Z"
+  }
+}
+
+
+
+http://localhost:5000/login
+
+{
+    "username": "example_user",
+    "password": "example_password"
+}
+
+
+http://localhost:5000/add_subject
+
+{
+  "subject_code": "MATH102",
+  "name": "Mathematics",
+  "description": "An introduction to algebra, geometry, and calculus."
+}
+
+
+{
+  "_id": {
+    "$oid": "669c0165289ed7b2470682cf"
+  },
+  "subject_code": "MATH103",
+  "name": "Mathematics",
+  "description": "An introduction to algebra, geometry, and calculus."
+}
+
+
+
+http://localhost:5000/add_student
+
+{
+    "username": "example_user",
+    "name": "John Doe",
+    "age": 20,
+    "class": "60c72b3f9b1d4f3a2c8f10ea",
+    "enrollment_date": "2023-01-01"
+}
+
+{
+  "_id": {
+    "$oid": "669bf9dcadc95528560ca8e6"
+  },
+  "username": "example_user1",
+  "name": "Shailesh",
+  "age": 20,
+  "class": "10",
+  "enrollment_date": "2023-01-01"
+}
+
+
+http://localhost:5000/add_teacher
+
+{
+  "user_name": "example_user2",
+  "name": "John Doe",
+  "subject": ["Mathematics", "Physics"],
+  "hire_date": "2023-09-01",
+  "salary": 55000
+}
+
+
+{
+  "_id": {
+    "$oid": "669c02e4ce369173ff9a46a8"
+  },
+  "user_name": "example_user1",
+  "name": "John Doe",
+  "subject": [
+    "MATH102",
+    "MATH101"
+  ],
+  "hire_date": {
+    "$date": "2023-09-01T00:00:00.000Z"
+  },
+  "salary": 55000,
+  "updated_at": {
+    "$date": "2024-07-20T18:33:08.170Z"
+  }
+}
+
+http://localhost:5000/add_staff
+
+{
+  "user_name": "example_user",
+  "name": "Jane Doe",
+  "position": "Administrative Assistant",
+  "hire_date": "2023-01-15",
+  "salary": 40000
+}
+
+{
+  "_id": {
+    "$oid": "669c0472899e1da29999326c"
+  },
+  "user_name": "example_user",
+  "name": "Jane Doe",
+  "position": "Administrative Assistant",
+  "hire_date": {
+    "$date": "2023-01-15T00:00:00.000Z"
+  },
+  "salary": 40000,
+  "updated_at": {
+    "$date": "2024-07-20T18:39:46.707Z"
+  }
+}
+
+
+
+http://localhost:5000/add_class
+
+{
+  "class_code": "MATH101",
+  "name": "Mathematics 101",
+  "teacher_user_name": "example_user2",
+  "student_user_name": "example_user"
+}
+
+{
+  "_id": {
+    "$oid": "669c0813f8e0a8ff537d92ee"
+  },
+  "class_code": "MATH101",
+  "name": "Mathematics 101",
+  "teacher_user_name": "example_user2",
+  "student_user_name": "example_user"
+}
+
+
+
+http://localhost:5000/add_attendance
+
+{
+  "user_name": "example_user",
+  "user_type": "student",
+  "date": "2023-07-20",
+  "status": "present"
+}
+
+
+{
+  "_id": {
+    "$oid": "669c0b35a3f77657c877411f"
+  },
+  "user_name": "example_user",
+  "user_type": "student",
+  "date": {
+    "$date": "2023-07-20T00:00:00.000Z"
+  },
+  "status": "present"
+}
+
+
+http://localhost:5000/add_exam
+
+{
+  "class_code": "MATH101",
+  "subject_code": "MATH101",
+  "exam_date": "2023-07-20",
+  "description": "Mid-term Algebra Exam"
+}
+
+{
+  "_id": {
+    "$oid": "669c0d7a6d8d5e9d8f9d2fd4"
+  },
+  "class_code": "MATH101",
+  "subject_code": "MATH101",
+  "exam_date": {
+    "$date": "2023-07-20T00:00:00.000Z"
+  },
+  "description": "Mid-term Algebra Exam"
+}
+
+
+http://localhost:5000/add_exam_result
+
+{
+  "student": "example_user",
+  "exam": "669c0d5b6d8d5e9d8f9d2fd3",
+  "score": 95,
+  "grade": "A"
+}
+
+{
+  "_id": {
+    "$oid": "669c1091b5e70b00aede2a6a"
+  },
+  "student": "example_user",
+  "exam": "669c0d5b6d8d5e9d8f9d2fd3",
+  "score": 95,
+  "grade": "A"
+}
+
+
+http://localhost:5000/add_timetable_entry
+
+{
+  "class_code": "MATH101",
+  "day_of_week": "Monday",
+  "subject_code": "MATH101",
+  "start_time": "09:00",
+  "end_time": "10:00"
+}
+
+{
+  "_id": {
+    "$oid": "669c11f25f2d869b15d2ac01"
+  },
+  "class_code": "MATH101",
+  "day_of_week": "Monday",
+  "subject_code": "MATH101",
+  "start_time": "09:00",
+  "end_time": "10:00"
+}
+
+
+http://localhost:5000/add_fee
+
+{
+  "student_username": "example_user",
+  "amount": 500,
+  "due_date": "2023-08-15",
+  "status": "pending"
+}
+
+{
+  "_id": {
+    "$oid": "669c132c0cf7623e9d51ec59"
+  },
+  "student_username": "example_user",
+  "amount": 500,
+  "due_date": {
+    "$date": "2023-08-15T00:00:00.000Z"
+  },
+  "status": "pending"
+}
+
+
+http://localhost:5000/add_salary
+
+{
+  "user_name": "example_user",
+  "user_type": "staff",
+  "amount": 5000,
+  "payment_date": "2023-08-15",
+  "status": "paid"
+}
+
+{
+  "_id": {
+    "$oid": "669c146f0b52d3182ca1553e"
+  },
+  "user_name": "example_user",
+  "user_type": "staff",
+  "amount": 5000,
+  "payment_date": {
+    "$date": "2023-08-15T00:00:00.000Z"
+  },
+  "status": "paid"
+}
